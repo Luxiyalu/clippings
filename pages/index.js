@@ -1,63 +1,80 @@
 import Head from 'next/head'
-import styles from '../styles/Home.less'
+import css from './index.less'
+import { useEffect, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+import processClippings from '../services/processClippings'
 
 export default function Home() {
+  const [files, setFiles] = useState([])
+  const [books, setBooks] = useState({})
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: '.txt',
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, { preview: URL.createObjectURL(file) }),
+        ),
+      )
+    },
+  })
+
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview))
+    },
+    [files],
+  )
+
+  useEffect(() => {
+    files.forEach((file) => {
+      const reader = new FileReader()
+
+      reader.onabort = () => console.log('file reading was aborted')
+      reader.onerror = () => console.log('file reading has failed')
+      reader.onload = () => {
+        const b = processClippings(reader.result)
+        console.log(b)
+        setBooks(b)
+      }
+      reader.readAsText(file)
+    })
+  }, [files])
+
   return (
-    <div className={styles.container}>
+    <div className={css.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Kindle Clippings Processor</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <main className={css.main}>
+        <h1>Kindle Clippings Processor</h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        {Object.keys(books).length ? (
+          <div>
+            {Object.keys(books).map((title) => (
+              <div key={title}>
+                <h2>{title}</h2>
+                <article>
+                  {books[title].map((p) => (
+                    <p>{p}</p>
+                  ))}
+                </article>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div {...getRootProps({ className: css.dropzone })}>
+            <input {...getInputProps()} />
+            <button>Select File</button>
+          </div>
+        )}
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+      <footer className={css.footer}>
+        <a href="https://luxiyalu.com/about" target="_blank">
+          Made by Lucia
         </a>
       </footer>
     </div>

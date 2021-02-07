@@ -4,14 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:server": "PORT=3000 NODE_ENV=development nodemon server.js",
+    "dev:debug": "PORT=3000 NODE_ENV=development nodemon --inspect server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@zeit/next-less": "^1.0.1",
+    "classnames": "^2.2.6",
     "less": "^2.7.3",
+    "lodash": "^4.17.20",
     "next": "10.0.5",
+    "nodemon": "^2.0.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-dropzone": "^11.3.0"
   }
 }
