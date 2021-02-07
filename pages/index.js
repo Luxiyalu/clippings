@@ -65,9 +65,15 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div {...getRootProps({ className: css.dropzone })}>
-            <input {...getInputProps()} />
-            <button>Select File</button>
+          <div className={css.intro}>
+            <p>
+              Select "My Clippings.txt" to have your clippings grouped by book
+              title and sorted by location and timestamp.
+            </p>
+            <div {...getRootProps({ className: css.dropzone })}>
+              <input {...getInputProps()} />
+              <button>Select File</button>
+            </div>
           </div>
         )}
       </main>
