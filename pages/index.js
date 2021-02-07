@@ -73,9 +73,12 @@ export default function Home() {
       </main>
 
       <footer className={css.footer}>
-        <a href="https://luxiyalu.com/about" target="_blank">
-          Made by Lucia
-        </a>
+        <p>
+          Made by{' '}
+          <a href="https://luxiyalu.com/about" target="_blank">
+            Lucia
+          </a>
+        </p>
       </footer>
     </div>
   )
