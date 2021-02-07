@@ -80,7 +80,7 @@ export default function Home() {
 
       <footer className={css.footer}>
         <p>
-          Made by{' '}
+          Brought to you by{' '}
           <a href="https://luxiyalu.com/about" target="_blank">
             Lucia
           </a>
