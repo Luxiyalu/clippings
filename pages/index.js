@@ -32,11 +32,7 @@ export default function Home() {
 
       reader.onabort = () => console.log('file reading was aborted')
       reader.onerror = () => console.log('file reading has failed')
-      reader.onload = () => {
-        const b = processClippings(reader.result)
-        console.log(b)
-        setBooks(b)
-      }
+      reader.onload = () => setBooks(processClippings(reader.result))
       reader.readAsText(file)
     })
   }, [files])
