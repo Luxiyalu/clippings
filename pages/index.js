@@ -2,6 +2,7 @@ import Head from 'next/head'
 import css from './index.less'
 import { useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { gtmScript, gtmNoscript } from '../services/gtm'
 import processClippings from '../services/processClippings'
 
 export default function Home() {
@@ -40,9 +41,11 @@ export default function Home() {
   return (
     <div className={css.container}>
       <Head>
+        <script dangerouslySetInnerHTML={{ __html: gtmScript }} />
         <title>Kindle Clippings Processor</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <noscript dangerouslySetInnerHTML={{ __html: gtmNoscript }} />
 
       <main className={css.main}>
         <h1>Kindle Clippings Processor</h1>
