@@ -12,7 +12,7 @@ export default function processClippings(content) {
         .split(/\r?\n/)
         .filter((s) => s.length > 0)
 
-      const locations = locationStr?.match(/(\d.)-(\d.)/)
+      const locations = locationStr?.match(/(\d+)-(\d+)/)
       const location = locations && parseInt(locations[1], 10)
       const time = new Date(locationStr?.split(',')[1].trim()).getTime()
       const paragraph = paragraphs?.filter((s) => s.length > 1)[0]?.trim()

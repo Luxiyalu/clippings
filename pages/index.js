@@ -49,12 +49,12 @@ export default function Home() {
 
         {Object.keys(books).length ? (
           <div>
-            {Object.keys(books).map((title) => (
-              <div key={title}>
+            {Object.keys(books).map((title, i) => (
+              <div key={i}>
                 <h2>{title}</h2>
                 <article>
-                  {books[title].map((p) => (
-                    <p>{p}</p>
+                  {books[title].map((p, i) => (
+                    <p key={i}>{p}</p>
                   ))}
                 </article>
               </div>
