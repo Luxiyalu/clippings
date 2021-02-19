@@ -71,7 +71,7 @@ export default function Home() {
             </p>
             <div {...getRootProps({ className: css.dropzone })}>
               <input {...getInputProps()} />
-              <button>Select File</button>
+              <button id="select-file-button">Select File</button>
             </div>
           </div>
         )}
